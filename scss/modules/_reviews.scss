@@ -1,0 +1,50 @@
+.hide {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    background-color: rgba(152, 158, 153, 0.589);
+  }
+  
+  .hide-off{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .reviews {
+    position: relative;
+    font: $font;
+    background-color: white;
+    padding: 20px 20px;
+    width: 30%;
+    height: 50%;
+    @media (max-width: $mobile) {
+      width: 100%;
+      height: 100%;
+    }
+    overflow-y: scroll;
+      &::-webkit-scrollbar {
+        width: 10px;
+        }
+    &__title {
+      font-size: 25px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }   
+    
+    &___info {
+      font-size: 20px;
+    }
+    &__close {
+      position: absolute;
+      top: 10px;
+      right: 10px ;
+      background-color: transparent;
+      font-size: 30px;
+      font-weight: 600;
+      }   
+  }
