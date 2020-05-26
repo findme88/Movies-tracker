@@ -1,0 +1,25 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px auto 40px;
+  
+    @media (max-width: $mobile) {
+      flex-direction: column;
+      margin: 10px auto 20px;
+      align-items: center;
+    }
+  }
+
+  
+    
+  .search__field {
+        border-bottom: 2px solid black;
+        padding-bottom: 4px;
+        background: transparent;
+    }
+
+    .search__btn {
+        text-transform: uppercase;
+        font-weight: 600;
+        cursor: pointer;
+    }
