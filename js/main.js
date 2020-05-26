@@ -83,9 +83,14 @@ $(document).ready(function() {
 
   function drawReviews(movie) {
     console.log(movie.overview)
+    if (movie.overview == '') {
+    $('.window').addClass('hide-off')
+    $('.reviews__title').text(`NO REVIEW`)
+  } else {
     $('.window').addClass('hide-off')
     $('.reviews__title').text(movie.title)
     $('.reviews__info').text(movie.overview)
+  }
   }
   
   function removeReviews() {
