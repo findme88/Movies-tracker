@@ -275,7 +275,8 @@ body {
 .reviews {
   position: relative;
   font: "Prompt", sans-serif;
-  background-color: white;
+  background: -webkit-gradient(linear, left top, right top, from(#514a9d), to(#24c6dc));
+  background: linear-gradient(to right, #514a9d, #24c6dc);
   padding: 20px 20px;
   width: 20%;
   height: 20%;
