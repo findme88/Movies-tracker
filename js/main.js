@@ -17,31 +17,31 @@ $(document).ready(function () {
   // Functions
   async function getMovie() {
     let query = $(".search__field").val();
+    $(".search__field").val("");
 
     $("body").addClass("loading");
-
     if (query !== "") {
       $(".movie").remove();
 
-      let url = `${API_URL}/search/movie?api_key=${API_KEY}&query=${query}`
-try {
-      let response = await fetch (url)
-      let res = await response.json()
+      let url = `${API_URL}/search/movie?api_key=${API_KEY}&query=${query}`;
+      try {
+        let response = await fetch(url);
+        let res = await response.json();
 
-      if (res.results.length === 0) {
-                alert("No movies found");
-              } else {
-                res.results.forEach((movie) => {
-                  if (movie.poster_path !== null)
-                    $(".movies").append(drawMovie(movie));
-                  let $movied = $(".movies").find(`.${movie.id}`);
-                  $movied.click(() => getReviews(movie.id));
-                });
-              }
-              $("body").removeClass("loading")
-            } catch (e) {
-              alert ('error!')
-            }
+        if (res.results.length === 0) {
+          alert("No movies found");
+        } else {
+          res.results.forEach((movie) => {
+            if (movie.poster_path !== null)
+              $(".movies").append(drawMovie(movie));
+            let $movied = $(".movies").find(`.${movie.id}`);
+            $movied.click(() => getReviews(movie.id));
+          });
+        }
+        $("body").removeClass("loading");
+      } catch (e) {
+        alert("error!");
+      }
 
       // .then(data => data.json()
       //   .then(res => {
@@ -57,7 +57,6 @@ try {
       //       }
       //       $("body").removeClass("loading")
       //     }))
-
 
       // $.ajax({
       //   url: `${API_URL}/search/movie`,
@@ -97,21 +96,32 @@ try {
     return movieDOM;
   }
 
-  function getReviews(id) {
+  async function getReviews(id) {
     console.log(id);
 
-    $.ajax({
-      url: `${API_URL}/movie/${id}/reviews`,
-      type: "GET",
-      dataType: "json",
-      data: {
-        api_key: API_KEY,
-      },
-    }).then((res) => {
+    let url = `${API_URL}/movie/${id}/reviews?api_key=${API_KEY}`;
+    try {
+      let response = await fetch(url);
+      let res = await response.json();
+
       drawReviews(res);
-      // console.log(res)
-    });
+      console.log(res);
+    } catch (e) {
+      alert("error!");
+    }
   }
+
+  // $.ajax({
+  //   url: `${API_URL}/movie/${id}/reviews`,
+  //   type: "GET",
+  //   dataType: "json",
+  //   data: {
+  //     api_key: API_KEY,
+  //   },
+  // }).then((res) => {
+  //   drawReviews(res);
+  //   // console.log(res)
+  // });
 
   function drawReviews(moview) {
     // console.log(moview.results[0].content)
@@ -119,7 +129,6 @@ try {
       $(".window").addClass("hide-off");
       $(".reviews__title").text(moview.results[0].author);
       $(".reviews__info").text(moview.results[0].content);
-      
     } else {
       $(".window").addClass("hide-off");
       $(".reviews__title").text(`NO REVIEW`);

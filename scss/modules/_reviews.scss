@@ -22,8 +22,8 @@
   font: $font;
   background: linear-gradient(to right, #514a9d, #24c6dc);
   padding: 20px 20px;
-  width: 20%;
-  height: 20%;
+  width: 30%;
+  height: 30%;
 
   @media (max-width: $mobile) {
     width: 60%;
@@ -40,7 +40,7 @@
     margin-bottom: 20px;
   }
 
-  &___info {
+  &__info {
     font-size: 20px;
   }
 
