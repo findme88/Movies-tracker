@@ -15,7 +15,7 @@ $(document).ready(function () {
   });
 
   // Functions
-  function getMovie() {
+  async function getMovie() {
     let query = $(".search__field").val();
 
     $("body").addClass("loading");
@@ -23,27 +23,63 @@ $(document).ready(function () {
     if (query !== "") {
       $(".movie").remove();
 
-      $.ajax({
-        url: `${API_URL}/search/movie`,
-        type: "GET",
-        dataType: "json",
-        data: {
-          api_key: API_KEY,
-          query: query,
-        },
-      }).then((res) => {
-        if (res.results.length === 0) {
-          alert("No movies found");
-        } else {
-          res.results.forEach((movie) => {
-            if (movie.poster_path !== null)
-              $(".movies").append(drawMovie(movie));
-            let $movied = $(".movies").find(`.${movie.id}`);
-            $movied.click(() => getReviews(movie.id));
-          });
-        }
-        $("body").removeClass("loading");
-      });
+      let url = `${API_URL}/search/movie?api_key=${API_KEY}&query=${query}`
+try {
+      let response = await fetch (url)
+      let res = await response.json()
+
+      if (res.results.length === 0) {
+                alert("No movies found");
+              } else {
+                res.results.forEach((movie) => {
+                  if (movie.poster_path !== null)
+                    $(".movies").append(drawMovie(movie));
+                  let $movied = $(".movies").find(`.${movie.id}`);
+                  $movied.click(() => getReviews(movie.id));
+                });
+              }
+              $("body").removeClass("loading")
+            } catch (e) {
+              alert ('error!')
+            }
+
+      // .then(data => data.json()
+      //   .then(res => {
+      //     if (res.results.length === 0) {
+      //         alert("No movies found");
+      //       } else {
+      //         res.results.forEach((movie) => {
+      //           if (movie.poster_path !== null)
+      //             $(".movies").append(drawMovie(movie));
+      //           let $movied = $(".movies").find(`.${movie.id}`);
+      //           $movied.click(() => getReviews(movie.id));
+      //         });
+      //       }
+      //       $("body").removeClass("loading")
+      //     }))
+
+
+      // $.ajax({
+      //   url: `${API_URL}/search/movie`,
+      //   type: "GET",
+      //   dataType: "json",
+      //   data: {
+      //     api_key: API_KEY,
+      //     query: query,
+      //   },
+      // }).then((res) => {
+      //   if (res.results.length === 0) {
+      //     alert("No movies found");
+      //   } else {
+      //     res.results.forEach((movie) => {
+      //       if (movie.poster_path !== null)
+      //         $(".movies").append(drawMovie(movie));
+      //       let $movied = $(".movies").find(`.${movie.id}`);
+      //       $movied.click(() => getReviews(movie.id));
+      //     });
+      //   }
+      //   $("body").removeClass("loading");
+      // }).catch((e) => console.log(e))
     }
   }
 
@@ -65,7 +101,7 @@ $(document).ready(function () {
     console.log(id);
 
     $.ajax({
-      url: `${API_URL}/movie/${id}`,
+      url: `${API_URL}/movie/${id}/reviews`,
       type: "GET",
       dataType: "json",
       data: {
@@ -73,17 +109,21 @@ $(document).ready(function () {
       },
     }).then((res) => {
       drawReviews(res);
+      // console.log(res)
     });
   }
 
-  function drawReviews(movie) {
-    if (movie.overview == "") {
+  function drawReviews(moview) {
+    // console.log(moview.results[0].content)
+    if (moview.results.length != 0) {
       $(".window").addClass("hide-off");
-      $(".reviews__title").text(`NO REVIEW`);
+      $(".reviews__title").text(moview.results[0].author);
+      $(".reviews__info").text(moview.results[0].content);
+      
     } else {
       $(".window").addClass("hide-off");
-      $(".reviews__title").text(movie.title);
-      $(".reviews__info").text(movie.overview);
+      $(".reviews__title").text(`NO REVIEW`);
+      $(".reviews__info").text(``);
     }
   }
 
