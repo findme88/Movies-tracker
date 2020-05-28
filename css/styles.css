@@ -141,7 +141,7 @@ body {
 }
 
 .movies .movie:hover .movie__title {
-  bottom: 80%;
+  bottom: 50%;
 }
 
 .movies .movie .roll {
