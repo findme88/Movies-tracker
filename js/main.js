@@ -124,20 +124,36 @@ $(document).ready(function () {
   // });
 
   function drawReviews(moview) {
-    // console.log(moview.results[0].content)
+    console.log(moview.results.length)
+    $(".window").addClass("hide-off")
     if (moview.results.length != 0) {
-      $(".window").addClass("hide-off");
-      $(".reviews__title").text(moview.results[0].author);
-      $(".reviews__info").text(moview.results[0].content);
+      $(".reviews__title").text(``)
+      $(".reviews__info").text(``)
+      moview.results.forEach((review) => {
+        let reviewsDom = `
+        <h1 class="reviews__title">${review.author}</h1>
+        <p class="reviews__info">${review.content}</p>
+              `
+      // $(".reviews__title").text(review.author)
+      // $(".reviews__info").text(review.content)
+    console.log(reviewsDom) 
+    $('.reviews').append(reviewsDom)
+    
+  })
+        
+      // $(".reviews__title").text(item.results.author);
+      // $(".reviews__info").text(item.results.content);}
     } else {
       $(".window").addClass("hide-off");
       $(".reviews__title").text(`NO REVIEW`);
       $(".reviews__info").text(``);
     }
+    
   }
 
   function removeReviews() {
     $(".window").removeClass("hide-off");
+    
   }
 
   $(".reviews__close").click(() => {
